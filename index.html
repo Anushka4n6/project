@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TechMart Product Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="site-header__inner">
+        <div class="brand">
+          <span class="brand__name" id="store-name">TechMart</span>
+          <span class="brand__sub">Product Explorer</span>
+        </div>
+        <nav class="tabs" aria-label="Sections">
+          <button type="button" class="tab" data-panel="panel-finder" aria-current="page">Price finder</button>
+          <button type="button" class="tab" data-panel="panel-inventory">Inventory range</button>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ================= Challenge 1: Smart Price Finder ================= -->
+      <section id="panel-finder" class="panel" aria-labelledby="finder-title">
+        <div class="panel__intro">
+          <h1 id="finder-title">Find products near your budget</h1>
+          <p class="muted" id="catalog-summary"></p>
+        </div>
+
+        <div class="tools">
+          <form id="pf-closest-form" class="tool" novalidate>
+            <h2 class="tool__title">Closest to a price</h2>
+            <div class="tool__fields">
+              <div class="field">
+                <label for="pf-target">Find products around</label>
+                <div class="input-affix">
+                  <span aria-hidden="true">₹</span>
+                  <input id="pf-target" type="text" inputmode="decimal" autocomplete="off" value="70,000" aria-describedby="pf-closest-error" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="pf-count">Show</label>
+                <select id="pf-count">
+                  <option value="3" selected>3 closest</option>
+                  <option value="5">5 closest</option>
+                  <option value="8">8 closest</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn--primary" type="submit">Search</button>
+            <p class="error" id="pf-closest-error" role="alert" hidden></p>
+          </form>
+
+          <form id="pf-range-form" class="tool" novalidate>
+            <h2 class="tool__title">Within a range</h2>
+            <div class="tool__fields">
+              <div class="field">
+                <label for="pf-min">Minimum price</label>
+                <div class="input-affix">
+                  <span aria-hidden="true">₹</span>
+                  <input id="pf-min" type="text" inputmode="decimal" autocomplete="off" value="50,000" aria-describedby="pf-range-error" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="pf-max">Maximum price</label>
+                <div class="input-affix">
+                  <span aria-hidden="true">₹</span>
+                  <input id="pf-max" type="text" inputmode="decimal" autocomplete="off" value="80,000" aria-describedby="pf-range-error" />
+                </div>
+              </div>
+            </div>
+            <button class="btn btn--primary" type="submit">Find products in this range</button>
+            <p class="error" id="pf-range-error" role="alert" hidden></p>
+          </form>
+        </div>
+
+        <div class="ruler" id="pf-ruler" role="img" aria-label="Price scale"></div>
+
+        <div class="results-head">
+          <h2 id="pf-results-title">Results</h2>
+          <p class="muted" id="pf-status" role="status" aria-live="polite"></p>
+        </div>
+        <div id="pf-results" class="grid"></div>
+        <div id="pf-empty" class="empty" hidden></div>
+      </section>
+
+      <!-- ================= Challenge 6: Inventory Range Dashboard ================= -->
+      <section id="panel-inventory" class="panel" aria-labelledby="inv-title" hidden>
+        <div class="panel__intro">
+          <h1 id="inv-title">Inventory value by price range</h1>
+          <p class="muted">Inventory value is price × stock, added up for every product inside the range.</p>
+        </div>
+
+        <form id="inv-form" class="tool tool--narrow" novalidate>
+          <div class="tool__fields">
+            <div class="field">
+              <label for="inv-min">Minimum price</label>
+              <div class="input-affix">
+                <span aria-hidden="true">₹</span>
+                <input id="inv-min" type="text" inputmode="decimal" autocomplete="off" value="5,000" aria-describedby="inv-error" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="inv-max">Maximum price</label>
+              <div class="input-affix">
+                <span aria-hidden="true">₹</span>
+                <input id="inv-max" type="text" inputmode="decimal" autocomplete="off" value="20,000" aria-describedby="inv-error" />
+              </div>
+            </div>
+          </div>
+          <button class="btn btn--primary" type="submit">Search</button>
+          <p class="error" id="inv-error" role="alert" hidden></p>
+        </form>
+
+        <div class="range-viz">
+          <div class="ruler" id="inv-ruler" role="img" aria-label="Price scale"></div>
+          <div class="dual-slider" id="inv-slider">
+            <div class="dual-slider__rail"></div>
+            <div class="dual-slider__fill"></div>
+            <input type="range" id="inv-slider-min" min="0" max="150000" step="100" value="5000" aria-label="Minimum price" />
+            <input type="range" id="inv-slider-max" min="0" max="150000" step="100" value="20000" aria-label="Maximum price" />
+          </div>
+        </div>
+
+        <div class="stats" aria-live="polite">
+          <div class="stat">
+            <span class="stat__label">Products</span>
+            <strong class="stat__value" id="inv-count">0</strong>
+          </div>
+          <div class="stat">
+            <span class="stat__label">Units in stock</span>
+            <strong class="stat__value" id="inv-units">0</strong>
+          </div>
+          <div class="stat stat--lead">
+            <span class="stat__label">Inventory value</span>
+            <strong class="stat__value" id="inv-value">₹0</strong>
+          </div>
+        </div>
+
+        <div class="table-wrap" id="inv-table-wrap">
+          <table class="table">
+            <caption class="sr-only">Products inside the selected price range</caption>
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Brand</th>
+                <th scope="col" class="num">Price</th>
+                <th scope="col" class="num">Stock</th>
+                <th scope="col" class="num">Inventory value</th>
+                <th scope="col"><span class="sr-only">Actions</span></th>
+              </tr>
+            </thead>
+            <tbody id="inv-tbody"></tbody>
+          </table>
+        </div>
+        <div id="inv-empty" class="empty" hidden></div>
+      </section>
+    </main>
+
+    <dialog id="product-dialog" class="dialog" aria-labelledby="dialog-title">
+      <button class="dialog__close" type="button" aria-label="Close product details">×</button>
+      <div class="dialog__body"></div>
+    </dialog>
+
+    <!-- Plain scripts (not modules) so the page also works when opened straight from disk. -->
+    <script src="js/data.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/features/search.js"></script>
+    <script src="js/features/inventory.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>
